@@ -35,13 +35,14 @@ instance Show Spoken where
     show (MS 80) = "eighty"
     show (MS 90) = "ninety"
     show (MS 100) = "one hundred"
+    show (MS 1000) = "one thousand"
     show (MS x) | x > 99 = let (h:t:o:_) = breakN x
                            in (show $ MS h) ++ " hundred and " ++ (show $ MS (t*10+o))
                 | x > 20 = let (t:o:_) = breakN x in (show $ MS $ t*10) ++ "-" ++ (show $ MS o)
-    show (MS 1000) = "one thousand"
 
-list = length $ concat $ intersperse " " $ map (show . MS) [1..1000]
+list = map ( filter (not . (flip elem) [' ', '-']) . show . MS) [1..1000]
 
+-- Answer should be: 21124
 
 {- 
    one, two, three
